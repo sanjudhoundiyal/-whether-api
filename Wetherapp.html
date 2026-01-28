@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Weather App</title>
+    <link rel="stylesheet" href="Wehterapp.css" />
+</head>
+<body>
+
+<div class="card">
+    <div class="search">
+        <input type="text" placeholder="Enter city name" spellcheck="false" />
+        <button><img src="images/search.png" alt="Search Icon" /></button>
+    </div>
+
+    <div class="weather">
+        <img src="images/rain.png" class="weather-icon" alt="Weather Icon" />
+        <h1 class="temp"></h1>
+        <h2 class="city"></h2>
+
+        <div class="details">
+            <div class="col">
+                <img src="images/humidity.png" alt="Humidity" />
+                <div>
+                    <h1 class="humidity"></h1>
+                    <h1>Humidity</h1>
+                </div>
+            </div>
+
+            <div class="col">
+                <img src="images/wind.png" alt="Wind" />
+                <div>
+                    <h1 class="wind"></h1>
+                    <h1>Wind Speed</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const apikey = "ceec82e988fd2831eb30f10edbf39eb9";
+    const apiurl = "https://api.openweathermap.org/data/2.5/weather?q=";
+
+    const searchbox = document.querySelector(".search input");
+    const searchbtn = document.querySelector(".search button");
+
+    async function checkWeather(city) {
+        const response = await fetch(apiurl + city + `&appid=${apikey}&units=metric`);
+        const data = await response.json();
+        console.log(data);
+
+        document.querySelector(".city").innerText = data.name;
+        document.querySelector(".temp").innerText = Math.round(data.main.temp) + "°C";
+        document.querySelector(".humidity").innerText = data.main.humidity + "%";
+        document.querySelector(".wind").innerText = data.wind.speed + " km/h";
+    }
+
+    searchbox.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        checkWeather(searchbox.value);
+    }
+});
+
+</script>
+
+</body>
+</html>
